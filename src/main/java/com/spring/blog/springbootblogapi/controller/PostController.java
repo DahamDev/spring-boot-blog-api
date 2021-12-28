@@ -1,5 +1,6 @@
 package com.spring.blog.springbootblogapi.controller;
 
+import com.spring.blog.springbootblogapi.entity.Post;
 import com.spring.blog.springbootblogapi.payload.PostDto;
 import com.spring.blog.springbootblogapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,18 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
+    @GetMapping("/page")
+    public ResponseEntity<List<PostDto>> getPostperPage(
+            @RequestParam (name = "pagenumber",defaultValue="0",required = false ) int pagenumber,
+            @RequestParam (name ="pagesize" , defaultValue = "2" , required = false) int pagesize
+    ){
+        return ResponseEntity.ok(postService.getPostsPerPage(pagenumber,pagesize));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto , @PathVariable(name = "id") int id  ){
         return ResponseEntity.ok(postService.updatePost(postDto,id));
     }
+
+
 }

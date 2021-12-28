@@ -5,9 +5,12 @@ import com.spring.blog.springbootblogapi.payload.PostDto;
 import com.spring.blog.springbootblogapi.repository.PostRepository;
 import com.spring.blog.springbootblogapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +51,13 @@ public class PostServiceImpl implements PostService {
         updatedPost.setDescription(postDto.getDescription());
         updatedPost.setContent(postDto.getContent());
         return maptoDto(postRepository.save(updatedPost));
+    }
+
+    @Override
+    public List<PostDto> getPostsPerPage(int pageNumber, int numberOfItems) {
+        Pageable pagebale = PageRequest.of(pageNumber,numberOfItems, Sort.by("title"));
+        Page<Post> allPosts = postRepository.findAll(pagebale);
+        return allPosts.stream().map(post -> maptoDto(post)).collect(Collectors.toList());
     }
 
 

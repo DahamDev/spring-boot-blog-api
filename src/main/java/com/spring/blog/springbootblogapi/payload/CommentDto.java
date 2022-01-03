@@ -1,16 +1,13 @@
 package com.spring.blog.springbootblogapi.payload;
 
-import com.spring.blog.springbootblogapi.entity.Post;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import java.util.Date;
 
-@Data
+@Getter
+@Setter
 public class CommentDto {
-    int id;
-    int body;
-    PostDto postDto;
-    Date date;
+    String body;
 }

@@ -1,7 +1,9 @@
 package com.spring.blog.springbootblogapi.service.impl;
 
 import com.spring.blog.springbootblogapi.entity.Post;
+import com.spring.blog.springbootblogapi.exception.ResourceNotFoundException;
 import com.spring.blog.springbootblogapi.payload.PostDto;
+import com.spring.blog.springbootblogapi.repository.CommentRepository;
 import com.spring.blog.springbootblogapi.repository.PostRepository;
 import com.spring.blog.springbootblogapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
 
     @Override
     public PostDto addPost(PostDto postDto) {
@@ -39,7 +44,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto getPostById(int id) {
-        Post post = postRepository.getById(id);
+        Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("get post by id","no post for the id"));
         PostDto response = maptoDto(post);
         return response;
     }

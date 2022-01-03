@@ -18,21 +18,15 @@ public class Comment {
     int id;
 
     @Column(name = "body")
-    int body;
-
-    @ManyToOne
-    @Column(name = "post")
-    Post post;
+    String body;
 
     @Column(name = "date")
     Date date;
 
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    Post post;
 
-    public Comment(int id, int body, Date date) {
-        this.id = id;
-        this.body = body;
-        this.date = date;
-    }
 
 
 }
